@@ -42,7 +42,7 @@ max_iter = 1000;
 gamma = 1;
 [policy, A_s, v_star,num_iter] = policyIteration(P,R_sa,gamma,theta,max_iter,policy,A_s);
 
-fprintf('                Optimal policy got in %d iterations\n', num_iter)
+fprintf('                Optimal policy\n')
 fprintf('%8s %8s %8s %8s %8s\n', 'State', 'Left','Up','Right','Down')
 fprintf('-----------------------------------------------\n')
 fprintf('%8d %8.2f %8.2f %8.2f %8.2f\n', [1:14; policy(1:14,:)'])
