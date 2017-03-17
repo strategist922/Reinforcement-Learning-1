@@ -24,7 +24,6 @@ function [v_pi, all_v_pi] = TD0(stateSpace, getEpisodes,policy, alpha, ...
 v_pi = initial_v_pi;
 [statesFromEpisodes, actionsFromEpisodes, rewardsFromEpisodes] = getEpisodes(stateSpace, policy, num_episodes);
 all_v_pi = zeros(size(stateSpace, 1), num_episodes);
-count_states = zeros(size(stateSpace, 1), 1);
 for i = 1 : num_episodes
 states = cell2mat(statesFromEpisodes(i));
 rewards = cell2mat(rewardsFromEpisodes(i));
@@ -38,7 +37,6 @@ for j = 1 : length_states
         next_state_index = state_index;
         reward = 0;
     end
-    count_states(state_index) = count_states(state_index) + 1;
     v_pi(state_index) = v_pi(state_index) + alpha * (reward + gamma * v_pi(next_state_index) - v_pi(state_index));
     state_index = next_state_index;
 end

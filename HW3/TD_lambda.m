@@ -21,7 +21,32 @@ function [v_pi, all_v_pi] = TD_lambda(stateSpace, getEpisodes,policy, alpha, ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Your code 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
+v_pi = initial_v_pi;
+[statesFromEpisodes, actionsFromEpisodes, rewardsFromEpisodes] = getEpisodes(stateSpace, policy, num_episodes);
+all_v_pi = zeros(size(stateSpace, 1), num_episodes);
+for i = 1 : num_episodes
+trace = zeros(size(stateSpace, 1), 1);
+states = cell2mat(statesFromEpisodes(i));
+rewards = cell2mat(rewardsFromEpisodes(i));
+length_states = size(states, 1);
+state_index = find( all( repmat(states(1, :), size(stateSpace, 1),1) == stateSpace, 2) );
+for j = 1 : length_states
+    trace(state_index) = trace(state_index) + 1;
+    if j ~= length_states
+        next_state_index = find( all( repmat(states(j + 1, :), size(stateSpace, 1),1) == stateSpace, 2) );
+        reward = rewards(j);
+    else
+        next_state_index = state_index;
+        reward = 0;
+    end
+    e = reward + gamma * v_pi(next_state_index) - v_pi(state_index);
+    for state = 1 : size(stateSpace, 1)
+        v_pi(state) = v_pi(state) + alpha * e * trace(state);
+    end
+    state_index = next_state_index;
+    trace = trace * lambda * gamma;
+end
+all_v_pi(:, i) = v_pi;
+end
+
 end
