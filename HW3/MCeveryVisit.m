@@ -23,13 +23,13 @@ function [v_pi, all_v_pi] = MCeveryVisit(stateSpace,getEpisodes,policy,...
 v_pi = initial_v_pi;
 [statesFromEpisodes, actionsFromEpisodes, rewardsFromEpisodes] = getEpisodes(stateSpace, policy, num_episodes);
 all_v_pi = zeros(size(stateSpace, 1), num_episodes);
+count_states = zeros(size(stateSpace, 1), 1);
 for i = 1 : num_episodes
 states = cell2mat(statesFromEpisodes(i));
 actions = cell2mat(actionsFromEpisodes(i));
 rewards = cell2mat(rewardsFromEpisodes(i));
 total_rewards = 0;
 length_states = size(states, 1);
-count_states = zeros(size(stateSpace, 1), 1);
 for j = length_states : -1: 1
     state_index = find( all( repmat(states(j, :), size(stateSpace, 1),1) == stateSpace, 2) );
     count_states(state_index) = count_states(state_index) + 1;
