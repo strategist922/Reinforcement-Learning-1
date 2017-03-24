@@ -11,9 +11,9 @@ initial_v_pi = zeros(21,1);
 
 v_pi = zeros(21,num_runs);
 for i = 1:num_runs
-    [v_pi_singleRun,~] = TD_lambda_forward((0:20)',@getEpisodes_randomWalk19,[],alpha,gamma,initial_v_pi,num_episodes,lambda);
+    [v_pi_singleRun, all_results] = TD_lambda_forward((0:20)',@getEpisodes_randomWalk19,[],alpha,gamma,initial_v_pi,num_episodes,lambda);
     %[v_pi_singleRun,~] = TD0((0:20)',@getEpisodes_randomWalk19,policy,alpha,gamma,initial_v_pi,num_episodes);
-    v_pi(:,i) = v_pi_singleRun;
+    v_pi(:,i) = all_results(:, 5);
 end
 v_pi_avg = mean(v_pi,2);
 true_v_pi = ((-20:2:20)/20)';
