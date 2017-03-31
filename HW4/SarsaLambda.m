@@ -32,7 +32,6 @@ for n = 1 : numIterations
     prob = policy(S_index, :);
     A = sum(rand() >= cumsum([0, prob]));
     while ~isequal(S, terminalStates)
-        %GENERALIZA!!!!!!!!
         [next_S, R] = takeAction(S, A);
         S_index = find( all( repmat(S, statesNum, 1) == stateSpace, 2) );
         next_S_index = find( all( repmat(next_S, statesNum, 1) == stateSpace, 2) );
